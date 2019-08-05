@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ScavngrApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ScavngrApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ScavngrApplication.class, args);
+    }
 
 }

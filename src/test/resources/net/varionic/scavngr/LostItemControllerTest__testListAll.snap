@@ -1,0 +1,25 @@
+[ {
+  "id" : 1,
+  "category" : "Foo",
+  "description" : "Foo-bar",
+  "whenLost" : "2010-10-10T10:10:10.00000001-07:00",
+  "lat" : -1.234,
+  "lon" : 10.9876,
+  "returned" : false
+}, {
+  "id" : 1,
+  "category" : "Foo",
+  "description" : "Bar Baz",
+  "whenLost" : "2010-10-10T10:10:10.00000001-07:00",
+  "lat" : -1.234,
+  "lon" : 10.9876,
+  "returned" : false
+}, {
+  "id" : 1,
+  "category" : "Foo",
+  "description" : "Something Else",
+  "whenLost" : "2010-10-10T10:10:10.00000001-07:00",
+  "lat" : -1.234,
+  "lon" : 10.9876,
+  "returned" : false
+} ]
