@@ -39,15 +39,26 @@ public class LostItemControllerTest {
 
     @Test
     public void testListAll() throws IOException {
-        var item1 = new LostItem(1L, "Foo", "Foo-bar", "foo@example.com", "asdf", reftime, -1.234f, 10.9876f, false);
-        var item2 = item1.toBuilder()
+        var builder = LostItem.builder()
+                .id(1L)
+                .category("Foo")
+                .description("Foo-bar")
+                .email("foo@example.com")
+                .whenLost(reftime)
+                .lat(32.7174f)
+                .lon(-117.1628f);
+
+        var item1 = builder.build();
+        var item2 = builder
+                .id(2L)
                 .description("Bar Baz")
                 .build();
-        var item3 = item1.toBuilder()
+        var item3 = builder
+                .id(3L)
                 .description("Something Else")
                 .build();
 
-        Mockito.when(repo.findAll()).thenReturn(
+        Mockito.when(repo.allLost()).thenReturn(
                 List.of(item1, item2, item3)
         );
 

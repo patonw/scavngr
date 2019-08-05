@@ -1,25 +1,23 @@
 package net.varionic.scavngr;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
-import java.time.ZoneOffset;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
-import static io.vavr.API.*;
+
+import static io.vavr.API.For;
 
 @Log4j2
-@RequestMapping(value = "/api/v1/lost", produces = "application/json")
+@RequestMapping(value = "/api/v1/found", produces = "application/json")
 @RestController
-public class LostItemController extends BaseController {
-    @Autowired
-    private LostItemRepository repo;
+public class FoundItemController extends BaseController {
 
     @GetMapping
     public List<LostItem.Output> listAll() {
-        var foo = For(repo.allLost())
+        var foo = For(repo.allFound())
                 .yield(mapper::toOutput);
 
         return foo.toJavaList();
@@ -31,9 +29,10 @@ public class LostItemController extends BaseController {
         var entity = mapper.fromInput(item);
 
         entity.setToken("abc123"); // TODO cryptographic token
+        entity.setFound(true);
 
         var record = repo.save(entity);
-        log.info("Created new LostItem:" + record);
+        log.info("Created new Found item:" + record);
 
         return mapper.toOutput(record);
     }
@@ -41,7 +40,7 @@ public class LostItemController extends BaseController {
     @GetMapping("/{id}")
     LostItem.Output findOne(@PathVariable Long id) {
         var result = repo.findById(id)
-                .filter(it -> !it.isFound())
+                .filter(LostItem::isFound)
                 .orElseThrow(() -> new NotFoundException("Item " + id + " does not exist"));
         return mapper.toOutput(result);
     }

@@ -27,6 +27,7 @@ public class LostItem {
     private OffsetDateTime whenLost;
     private Float lat; // TODO Give PostGIS a try
     private Float lon;
+    private boolean isFound;
     private boolean returned;
 
     @Data
@@ -40,6 +41,7 @@ public class LostItem {
         private OffsetDateTime whenLost;
         private Float lat;
         private Float lon;
+        private boolean isFound;
     }
 
     @Data
