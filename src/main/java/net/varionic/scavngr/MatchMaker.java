@@ -3,25 +3,36 @@ package net.varionic.scavngr;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 
 @Slf4j
 @Service
 public class MatchMaker {
     @Autowired
-    LostItemRepository repo;
+    LostItemRepository itemRepo;
+
+    @Autowired
+    MatchedItemRepository matchRepo;
 
     @Async
-    void processMatches(LostItem found) {
-        var candidates = repo.boundedLostItems(
+    Future<Iterable<MatchedItem>> processMatches(Item found) {
+        // TODO more intelligent matching
+        var candidates = itemRepo.boundedLostItems(
                 found.getWhenLost(),
                 found.getLat() - 1.0f,
                 found.getLat() + 1.0f,
                 found.getLon() - 1.0f,
                 found.getLon() + 1.0f);
 
-        log.info("Candidates are " + candidates);
-        // TODO persist matches and queue notifications
+        var matches = candidates.stream()
+                .map(it -> new MatchedItem(it, found))
+                .collect(Collectors.toList());
+
+        return new AsyncResult<>(matchRepo.saveAll(matches));
     }
 }

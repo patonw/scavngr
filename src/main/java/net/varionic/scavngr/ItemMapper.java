@@ -7,17 +7,19 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface LostItemMapper {
-    LostItemMapper INSTANCE = Mappers.getMapper(LostItemMapper.class);
+public interface ItemMapper {
+    ItemMapper INSTANCE = Mappers.getMapper(ItemMapper.class);
 
     @Mapping(source="whenLost", target="whenLost")
-    LostItem fromInput(LostItem.Input item);
+    Item fromInput(Item.Input item);
 
     @Mapping(source="whenLost", target="whenLost")
-    LostItem.Output toOutput(LostItem item);
+    Item.Output toOutput(Item item);
 
     @Mapping(target="id", ignore=true)
     @Mapping(target="token", ignore=true)
     @Mapping(target="email", ignore=true)
-    LostItem updateItem(LostItem.Update up, @MappingTarget LostItem item);
+    Item updateItem(Item.Update up, @MappingTarget Item item);
+
+    MatchedItem.Output toOutput(MatchedItem item);
 }

@@ -21,7 +21,7 @@ public class AppConfig {
     }
 
     @Bean
-    public LostItemMapper itemMapper() {
-        return LostItemMapper.INSTANCE;
+    public ItemMapper itemMapper() {
+        return ItemMapper.INSTANCE;
     }
 }

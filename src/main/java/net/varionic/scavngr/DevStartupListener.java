@@ -26,18 +26,18 @@ public class DevStartupListener {
 
         ZoneOffset zoneOffSet = ZoneOffset.of("-08:00"); // TODO get from client
         var now = OffsetDateTime.now(zoneOffSet);
-        var builder = LostItem.Input.builder()
+        var builder = Item.Input.builder()
                 .category("Clothing")
                 .email("hello@world.net")
                 .whenLost(now.minusDays(3))
                 .lat(32.7174f)
                 .lon(-117.1628f);
-        var item1 = builder.description("Foobar").build(); //new LostItem.Input("Clothing", "Foobar", "hello@world.net", now, 32.7174f, -117.1628f, false);
-        var item2 = builder.description("Barbaz").build(); //new LostItem.Input("Clothing", "Barbaz", "hello@world.net", now, 32.7174f, -117.1628f, false);
+        var item1 = builder.description("Foobar").build();
+        var item2 = builder.description("Barbaz").build();
         lostCtrl.create(item1);
         lostCtrl.create(item2);
 
-        var builder2 = LostItem.Input.builder()
+        var builder2 = Item.Input.builder()
                 .category("Electronics")
                 .email("hello@world.net")
                 .whenLost(now)

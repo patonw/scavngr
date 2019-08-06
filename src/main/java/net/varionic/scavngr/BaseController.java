@@ -24,12 +24,12 @@ public class BaseController {
     }
 
     @Autowired
-    LostItemMapper mapper;
+    ItemMapper mapper;
 
     @Autowired
     LostItemRepository repo;
 
-    void validateCreate(LostItem.Input item) {
+    void validateCreate(Item.Input item) {
         // TODO use Vavr Validation applicative functor
         if (item.getLat() == null)
             throw new BadRequestException("Latitude is required");
@@ -40,7 +40,7 @@ public class BaseController {
             throw new BadRequestException("Date and time are required");
     }
 
-    LostItem updateItem(@PathVariable Long id, @RequestBody LostItem.Update up) {
+    Item updateItem(@PathVariable Long id, @RequestBody Item.Update up) {
         var token = up.getToken();
         if (token == null)
             throw new BadRequestException("A token is required");

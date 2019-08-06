@@ -39,7 +39,7 @@ public class LostItemControllerTest {
 
     @Test
     public void testListAll() throws IOException {
-        var builder = LostItem.builder()
+        var builder = Item.builder()
                 .id(1L)
                 .category("Foo")
                 .description("Foo-bar")
@@ -68,7 +68,7 @@ public class LostItemControllerTest {
 
     @Test
     public void testCreateItem() throws IOException {
-        var inputBuilder = LostItem.Input.builder()
+        var inputBuilder = Item.Input.builder()
                 .description("Hello World")
                 .email("foo@example.com")
                 .whenLost(reftime)
@@ -86,14 +86,14 @@ public class LostItemControllerTest {
 
 
         inputBuilder.lon(20.0f);
-        var item = LostItem.builder()
+        var item = Item.builder()
                 .description("132413412341234")
                 .build();
 
         Mockito.when(repo.save(any()))
             .thenReturn(item);
 
-        var captor = ArgumentCaptor.forClass(LostItem.class);
+        var captor = ArgumentCaptor.forClass(Item.class);
         var result = controller.create(inputBuilder.build());
         verify(repo, atLeastOnce()).save(captor.capture());
 
@@ -109,7 +109,7 @@ public class LostItemControllerTest {
         String token = "how now brown cow";
 
         long id = 123L;
-        var baseItem = LostItem.builder()
+        var baseItem = Item.builder()
                 .description("Hello")
                 .category("Accessories")
                 .email("foo@example.com")
@@ -121,7 +121,7 @@ public class LostItemControllerTest {
                 .whenLost(reftime)
                 .build();
 
-        var update = LostItem.Update.builder()
+        var update = Item.Update.builder()
                 .description("Stylish spork")
                 .returned(true);
 
@@ -140,7 +140,7 @@ public class LostItemControllerTest {
         update.token(token);
         controller.update(id, update.build());
 
-        var captor = ArgumentCaptor.forClass(LostItem.class);
+        var captor = ArgumentCaptor.forClass(Item.class);
         verify(repo, atLeastOnce()).save(captor.capture());
 
         snapshot.matches(captor.getValue());

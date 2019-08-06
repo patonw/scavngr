@@ -4,9 +4,9 @@ import io.vavr.collection.Seq;
 import io.vavr.control.Validation;
 
 public class LostItemValidator {
-    private LostItemMapper mapper = LostItemMapper.INSTANCE;
+    private ItemMapper mapper = ItemMapper.INSTANCE;
 
-    public Validation<Seq<String>, LostItem> validate(LostItem.Input inp) {
+    public Validation<Seq<String>, Item> validate(Item.Input inp) {
         return Validation.combine(validateLon(inp.getLon()), validateLat(inp.getLat())).ap( (x, y) -> mapper.fromInput(inp));
     }
 
