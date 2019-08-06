@@ -23,7 +23,9 @@ public class BaseController {
         }
     }
 
-    LostItemMapper mapper = LostItemMapper.INSTANCE;
+    @Autowired
+    LostItemMapper mapper;
+
     @Autowired
     LostItemRepository repo;
 

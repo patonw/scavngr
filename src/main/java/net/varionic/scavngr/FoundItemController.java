@@ -1,6 +1,8 @@
 package net.varionic.scavngr;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +17,9 @@ import static io.vavr.API.For;
 @RestController
 public class FoundItemController extends BaseController {
 
+    @Autowired
+    MatchMaker matcher;
+
     @GetMapping
     public List<LostItem.Output> listAll() {
         var foo = For(repo.allFound())
@@ -28,6 +33,7 @@ public class FoundItemController extends BaseController {
         validateCreate(item);
         var entity = mapper.fromInput(item);
 
+        entity.setModified(OffsetDateTime.now());
         entity.setToken("abc123"); // TODO cryptographic token
         entity.setFound(true);
 
@@ -42,6 +48,10 @@ public class FoundItemController extends BaseController {
         var result = repo.findById(id)
                 .filter(LostItem::isFound)
                 .orElseThrow(() -> new NotFoundException("Item " + id + " does not exist"));
+
+        matcher.processMatches(result);
+        log.info("Called async method");
+
         return mapper.toOutput(result);
     }
 

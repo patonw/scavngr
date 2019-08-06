@@ -30,7 +30,8 @@ public class LostItemController extends BaseController {
         validateCreate(item);
         var entity = mapper.fromInput(item);
 
-        entity.setToken("abc123"); // TODO cryptographic token
+        entity.setModified(OffsetDateTime.now()); // TODO configure MapStruct to do this
+        entity.setToken("abc123"); // TODO generate cryptographic token
 
         var record = repo.save(entity);
         log.info("Created new LostItem:" + record);

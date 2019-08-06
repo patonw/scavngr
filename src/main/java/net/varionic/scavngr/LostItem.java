@@ -1,15 +1,10 @@
 package net.varionic.scavngr;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.Set;
 
 @Data
 @Entity
@@ -20,6 +15,7 @@ public class LostItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private OffsetDateTime modified; // record modification time
     private String category;
     private String description;
     private String email;

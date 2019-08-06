@@ -29,7 +29,7 @@ public class DevStartupListener {
         var builder = LostItem.Input.builder()
                 .category("Clothing")
                 .email("hello@world.net")
-                .whenLost(now)
+                .whenLost(now.minusDays(3))
                 .lat(32.7174f)
                 .lon(-117.1628f);
         var item1 = builder.description("Foobar").build(); //new LostItem.Input("Clothing", "Foobar", "hello@world.net", now, 32.7174f, -117.1628f, false);

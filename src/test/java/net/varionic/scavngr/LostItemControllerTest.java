@@ -99,6 +99,7 @@ public class LostItemControllerTest {
 
         assertThat(result).isNotNull();
         assertThat(result.getDescription()).isEqualTo(item.getDescription());
+        captor.getValue().setModified(reftime);
 
         snapshot.matches(captor.getValue());
     }
@@ -112,6 +113,7 @@ public class LostItemControllerTest {
                 .description("Hello")
                 .category("Accessories")
                 .email("foo@example.com")
+                .modified(reftime)
                 .id(id)
                 .lat(1.23f)
                 .lon(9.87f)
