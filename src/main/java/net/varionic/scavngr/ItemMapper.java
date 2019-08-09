@@ -10,6 +10,10 @@ import org.mapstruct.factory.Mappers;
 public interface ItemMapper {
     ItemMapper INSTANCE = Mappers.getMapper(ItemMapper.class);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "modified", ignore = true)
+    @Mapping(target = "token", ignore = true)
+    @Mapping(target = "returned", ignore = true)
     @Mapping(source="whenLost", target="whenLost")
     Item fromInput(Item.Input item);
 
@@ -19,6 +23,9 @@ public interface ItemMapper {
     @Mapping(target="id", ignore=true)
     @Mapping(target="token", ignore=true)
     @Mapping(target="email", ignore=true)
+    @Mapping(target = "modified", ignore = true)
+    @Mapping(target = "whenLost", ignore = true)
+    @Mapping(target = "found", ignore = true)
     Item updateItem(Item.Update up, @MappingTarget Item item);
 
     MatchedItem.Output toOutput(MatchedItem item);

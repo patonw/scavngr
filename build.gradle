@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'java'
+    id 'jacoco'
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -19,7 +20,29 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+
+    integrationImplementation.extendsFrom testImplementation
+    integrationRuntime.extendsFrom testRuntime
 }
+
+sourceSets {
+    integration {
+        java.srcDir "src/integration/java"
+        resources.srcDir "src/integration/resources"
+
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+    }
+}
+
+task integrationTest(type: Test) {
+    group = 'verification'
+    testClassesDirs = sourceSets.integration.output.classesDirs
+    classpath = sourceSets.integration.runtimeClasspath
+}
+
+check.dependsOn integrationTest
+integrationTest.shouldRunAfter test
 
 repositories {
     mavenCentral()
@@ -44,4 +67,11 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation "com.h2database:h2"
     testImplementation "com.fasterxml.jackson.datatype:jackson-datatype-jdk8"
+
+    integrationAnnotationProcessor 'org.projectlombok:lombok'
+    integrationAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    integrationCompileOnly 'org.projectlombok:lombok'
+    integrationRuntimeOnly 'org.postgresql:postgresql'
+    integrationImplementation "org.testcontainers:testcontainers:1.11.3"
+    integrationImplementation "org.testcontainers:postgresql:1.11.3"
 }
