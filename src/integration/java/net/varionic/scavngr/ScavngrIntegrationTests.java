@@ -26,8 +26,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ScavngrIntegrationTests {
-    private OffsetDateTime reftime = OffsetDateTime.of(2010,10,10,10,10,10,0, ZoneOffset.ofHours(-7));
-    private Condition<OffsetDateTime> sameAsRefTime = new Condition<>(
+    private static OffsetDateTime reftime = OffsetDateTime.of(2010,10,10,10,10,10,0, ZoneOffset.ofHours(-7));
+    private static Condition<OffsetDateTime> sameAsRefTime = new Condition<>(
             it -> it.isEqual(reftime),
             "same instant as " + reftime);
 
@@ -101,7 +101,8 @@ public class ScavngrIntegrationTests {
 
         var id1 = repo.save(baseItem.build()).getId();
 
-        baseItem.token("whoops");
+        String token2 = "whoops";
+        baseItem.token(token2);
         var id2 = repo.save(baseItem.build()).getId();
         repo.flush();
 
@@ -129,7 +130,7 @@ public class ScavngrIntegrationTests {
 
         snapshot.matches(result);
 
-        Item unchangedItem = repo.findById(id2).orElseThrow();
+        var unchangedItem = controller.findOne(id2, token2);
         assertThat(unchangedItem.getWhenLost()).is(sameAsRefTime);
         unchangedItem.setWhenLost(reftime);
 
