@@ -12,7 +12,7 @@ pipeline {
       }
       post {
         always {
-          junit 'build/test-results/test'
+          junit 'build/test-results/test/*.xml'
         }
       }
     }
@@ -22,7 +22,7 @@ pipeline {
       }
       post {
         always {
-          junit 'build/test-results/integrationTest'
+          junit 'build/test-results/integrationTest/*.xml'
         }
       }
     }
