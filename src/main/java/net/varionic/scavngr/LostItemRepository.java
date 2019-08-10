@@ -1,12 +1,12 @@
 package net.varionic.scavngr;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 
-public interface LostItemRepository extends CrudRepository<Item, Long> {
+public interface LostItemRepository extends JpaRepository<Item, Long> {
     @Query("SELECT e FROM Item e WHERE e.isFound = FALSE")
     List<Item> allLost();
 

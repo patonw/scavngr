@@ -1,0 +1,9 @@
+{
+  "id" : 1,
+  "category" : "Accessories",
+  "description" : "Stylish spork",
+  "whenLost" : "2010-10-10T10:10:10-07:00",
+  "lat" : 1.23,
+  "lon" : 9.87,
+  "returned" : true
+}

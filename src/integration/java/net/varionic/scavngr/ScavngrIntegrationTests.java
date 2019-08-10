@@ -2,11 +2,13 @@ package net.varionic.scavngr;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.PostgreSQLContainer;
 
@@ -33,6 +35,9 @@ public class ScavngrIntegrationTests {
 
     @Autowired
     private LostItemController controller;
+
+    @Autowired
+    private LostItemRepository repo;
 
     @BeforeClass
     public static void setup() {
@@ -63,10 +68,57 @@ public class ScavngrIntegrationTests {
 
         inputBuilder.lon(20.0f);
         var result = controller.create(inputBuilder.build());
+        repo.flush();
 
         assertThat(result).isNotNull();
         assertThat(result.getDescription()).isEqualTo(description);
+        result.setId(42L);
 
         snapshot.matches(result);
+    }
+
+
+    @Test
+    public void testUpdateItem() throws JsonProcessingException {
+        String token = "how now brown cow";
+
+        var baseItem = Item.builder()
+                .description("Hello")
+                .category("Accessories")
+                .email("foo@example.com")
+                .modified(reftime)
+                .lat(1.23f)
+                .lon(9.87f)
+                .token(token)
+                .whenLost(reftime);
+
+        var id1 = repo.save(baseItem.build()).getId();
+
+        baseItem.token("whoops");
+        var id2 = repo.save(baseItem.build()).getId();
+        repo.flush();
+
+        var update = Item.Update.builder()
+                .description("Stylish spork")
+                .returned(true);
+
+        assertThatThrownBy( () -> controller.update(id2, update.build()))
+                .isInstanceOf(LostItemController.BadRequestException.class)
+                .hasMessage("A token is required");
+
+        update.token("Wrong token");
+        assertThatThrownBy( () -> controller.update(id2, update.build()))
+                .isInstanceOf(LostItemController.BadRequestException.class);
+
+        assertThatThrownBy( () -> controller.update(id1, update.build()))
+                .isInstanceOf(LostItemController.BadRequestException.class);
+
+        update.token(token);
+        var result = controller.update(id1, update.build());
+        repo.flush();
+
+
+        snapshot.matches(result);
+        snapshot.matches(repo.findById(id2).orElseThrow());
     }
 }

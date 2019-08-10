@@ -138,7 +138,7 @@ public class LostItemControllerTest {
                 .isInstanceOf(LostItemController.BadRequestException.class);
 
         update.token(token);
-        controller.update(id, update.build());
+        var result = controller.update(id, update.build());
 
         var captor = ArgumentCaptor.forClass(Item.class);
         verify(repo, atLeastOnce()).save(captor.capture());
