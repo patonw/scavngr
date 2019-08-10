@@ -1,6 +1,11 @@
-package net.varionic.scavngr;
+package net.varionic.scavngr.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import net.varionic.scavngr.model.Item;
+import net.varionic.scavngr.model.ItemMapper;
+import net.varionic.scavngr.model.MatchedItem;
+import net.varionic.scavngr.repo.LostItemRepository;
+import net.varionic.scavngr.repo.MatchedItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,7 +52,7 @@ public class MatchedItemController {
 
         return For(matchRepo.findByLost(id))
                 .yield(mapper::toOutput)
-                .map(it -> it.foundItem)
+                .map(MatchedItem.Output::getFoundItem)
                 .toJavaList();
     }
 }

@@ -1,7 +1,9 @@
-package net.varionic.scavngr;
+package net.varionic.scavngr.controller;
 
 import io.vavr.collection.Seq;
 import io.vavr.control.Validation;
+import net.varionic.scavngr.model.Item;
+import net.varionic.scavngr.model.ItemMapper;
 
 public class LostItemValidator {
     private ItemMapper mapper = ItemMapper.INSTANCE;

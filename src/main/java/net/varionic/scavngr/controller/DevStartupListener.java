@@ -1,6 +1,7 @@
-package net.varionic.scavngr;
+package net.varionic.scavngr.controller;
 
 import lombok.extern.log4j.Log4j2;
+import net.varionic.scavngr.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;

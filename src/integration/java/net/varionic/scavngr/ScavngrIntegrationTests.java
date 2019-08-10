@@ -2,6 +2,10 @@ package net.varionic.scavngr;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
+import net.varionic.scavngr.controller.LostItemController;
+import net.varionic.scavngr.model.Item;
+import net.varionic.scavngr.repo.LostItemRepository;
+import org.assertj.core.api.Condition;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -22,7 +26,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ScavngrIntegrationTests {
-    private OffsetDateTime reftime = OffsetDateTime.of(2010,10,10,10,10,10,10, ZoneOffset.ofHours(-7));
+    private OffsetDateTime reftime = OffsetDateTime.of(2010,10,10,10,10,10,0, ZoneOffset.ofHours(-7));
+    private Condition<OffsetDateTime> sameAsRefTime = new Condition<>(
+            it -> it.isEqual(reftime),
+            "same instant as " + reftime);
 
     @ClassRule
     public static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:11.1")
@@ -117,8 +124,15 @@ public class ScavngrIntegrationTests {
         var result = controller.update(id1, update.build());
         repo.flush();
 
+        assertThat(result.getWhenLost()).is(sameAsRefTime);
+        result.setWhenLost(reftime);
 
         snapshot.matches(result);
-        snapshot.matches(repo.findById(id2).orElseThrow());
+
+        Item unchangedItem = repo.findById(id2).orElseThrow();
+        assertThat(unchangedItem.getWhenLost()).is(sameAsRefTime);
+        unchangedItem.setWhenLost(reftime);
+
+        snapshot.matches(unchangedItem);
     }
 }

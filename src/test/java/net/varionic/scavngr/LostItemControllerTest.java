@@ -1,6 +1,9 @@
 package net.varionic.scavngr;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import net.varionic.scavngr.controller.LostItemController;
+import net.varionic.scavngr.model.Item;
+import net.varionic.scavngr.repo.LostItemRepository;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

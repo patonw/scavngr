@@ -1,4 +1,4 @@
-package net.varionic.scavngr;
+package net.varionic.scavngr.model;
 
 import lombok.*;
 

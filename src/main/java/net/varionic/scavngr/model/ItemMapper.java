@@ -1,4 +1,4 @@
-package net.varionic.scavngr;
+package net.varionic.scavngr.model;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

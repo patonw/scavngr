@@ -1,5 +1,6 @@
-package net.varionic.scavngr;
+package net.varionic.scavngr.repo;
 
+import net.varionic.scavngr.model.MatchedItem;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

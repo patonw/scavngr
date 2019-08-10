@@ -10,10 +10,20 @@ pipeline {
       steps {
         sh './gradlew test'
       }
+      post {
+        always {
+          junit 'build/test-results/test'
+        }
+      }
     }
     stage('Integration Tests') {
       steps {
         sh './gradlew integrationTest'
+      }
+      post {
+        always {
+          junit 'build/test-results/integrationTest'
+        }
       }
     }
   }

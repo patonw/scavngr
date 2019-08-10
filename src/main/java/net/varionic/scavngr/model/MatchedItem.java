@@ -1,4 +1,4 @@
-package net.varionic.scavngr;
+package net.varionic.scavngr.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,7 +48,7 @@ public class MatchedItem {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    static class Output {
+    public static class Output {
         Item.Output lostItem;
         Item.Output foundItem;
     }

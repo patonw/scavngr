@@ -1,6 +1,10 @@
-package net.varionic.scavngr;
+package net.varionic.scavngr.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import net.varionic.scavngr.model.Item;
+import net.varionic.scavngr.model.MatchedItem;
+import net.varionic.scavngr.repo.LostItemRepository;
+import net.varionic.scavngr.repo.MatchedItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;

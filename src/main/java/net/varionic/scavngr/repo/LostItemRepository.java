@@ -1,5 +1,6 @@
-package net.varionic.scavngr;
+package net.varionic.scavngr.repo;
 
+import net.varionic.scavngr.model.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

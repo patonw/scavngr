@@ -1,5 +1,6 @@
 package net.varionic.scavngr;
 
+import net.varionic.scavngr.model.ItemMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;

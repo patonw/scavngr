@@ -1,5 +1,8 @@
-package net.varionic.scavngr;
+package net.varionic.scavngr.controller;
 
+import net.varionic.scavngr.model.Item;
+import net.varionic.scavngr.model.ItemMapper;
+import net.varionic.scavngr.repo.LostItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
